@@ -3,17 +3,20 @@
 // 2021-12-31
 
 // Second-order Filter
-class FILTER2
+class IIRFilter2
 {
 public:
+    IIRFilter2() { 
+        memset(this, 0, sizeof(IIRFilter2));
+    }
     // Initialize type of filter, cut-off frequency, and sample time
-    void Init_LPF(double _fc1, double _fc2, double _T); // Low-pass filter (LPF)
-    void Init_HPF(double _fc1, double _fc2, double _T); // High-pass filter (HPF)
-    void Init_BPF(double _wc, double _wb, double _T); // Band-pass filter (BPF)
-    void Init_NTF(double _wc, double _wb, double _T); // Notch-filter (NTF)
+    void init_LPF(double _fc1, double _fc2, double _T); // Low-pass filter (LPF)
+    void init_HPF(double _fc1, double _fc2, double _T); // High-pass filter (HPF)
+    void init_BPF(double _wc, double _wb, double _T); // Band-pass filter (BPF)
+    void init_NTF(double _wc, double _wb, double _T); // Notch-filter (NTF)
     
     // Use this function filtering the 'input_data'
-    void Filter2(double *input_data, double *filtered_data);
+    const double& update(double input_data);
 
 private:
     double fc1, fc2; // Cutoff frequency (Hz) (for LPF & HPF)
@@ -29,5 +32,4 @@ private:
 
     void coeff_c2d(); // Convert continuous-time coefficients to discrete-time one
     void coeff_c2d_fp(); // Similar to coeff_c2d() but with frequency pre-warping (FP)
-    void Init_Para(); // Function for Paramter Setting
 };
