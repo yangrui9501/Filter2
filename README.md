@@ -38,5 +38,42 @@ double filter_out = filter.update(data); // data is the measured signal to be fi
 
 ## Example: LPF
 
+```cpp
+#include <Arduino.h>
+#include <iir_filter2.h>
 
+double noise, data;
+double filter_out;
+double Ts = 0.001;
+int idx = 0;
+double t = 0.0;
+
+IIRFilter2 filter;
+
+void setup()
+{
+    Serial.begin(115200);
+    filter.init_LPF(10.0, 10.0, Ts);
+}
+
+void loop()
+{
+    static unsigned long t_enter;
+    
+    if (micros() -t_enter >= 1000)
+    {
+        t_enter = micros();
+        
+        t = (double)(idx) * Ts;        
+        noise = (double)(random(-1000, 1000)) / 1000.0;    
+        data = sin(2.0*PI*t) + noise;
+
+        filter_out = filter.update(data);
+
+        idx++;
+
+        Serial.printf("%.3f %.3f\n", data, filter_out);
+    }
+}
+```
 ![image](https://user-images.githubusercontent.com/91120147/221400779-43297500-d633-4265-bbe1-6b017a49da48.png)
