@@ -37,3 +37,6 @@ double filter_out = filter.update(data); // data is the measured signal to be fi
 ```
 
 ## Example: LPF
+
+
+![image](https://user-images.githubusercontent.com/91120147/221400779-43297500-d633-4265-bbe1-6b017a49da48.png)
