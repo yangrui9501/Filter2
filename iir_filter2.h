@@ -6,7 +6,7 @@
 class IIRFilter2
 {
 public:
-    IIRFilter2() { 
+    IIRFilter2() {
         memset(this, 0, sizeof(IIRFilter2));
     }
     // Initialize type of filter, cut-off frequency, and sample time
@@ -14,7 +14,15 @@ public:
     void init_HPF(double _fc1, double _fc2, double _T); // High-pass filter (HPF)
     void init_BPF(double _wc, double _wb, double _T); // Band-pass filter (BPF)
     void init_NTF(double _wc, double _wb, double _T); // Notch-filter (NTF)
-    
+
+    void set_init(const double& value)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            u_in[i] = value;
+            u_out[i] = value;
+        }
+    }
     // Use this function filtering the 'input_data'
     const double& update(double input_data);
 
