@@ -12,6 +12,8 @@ void IIRFilter2::init_Butterworth(double _fc, double _T)
     B0C = 0.0;
     B1C = 0.0;
     B2C = A2C;
+    
+    coeff_c2d();
 }
 
 void IIRFilter2::init_LPF(double _fc1, double _fc2, double _T)
