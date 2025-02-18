@@ -1,5 +1,19 @@
 #include "iir_filter2.h"
 
+void IIRFilter2::init_Butterworth(double _fc, double _T)
+{
+    T = _T;
+    double zeta = 0.707;
+    double wn = 2.0 * PI * _fc;
+
+    A0C = 1.0;
+    A1C = 2.0 * zeta * wn;
+    A2C = wn * wn;
+    B0C = 0.0;
+    B1C = 0.0;
+    B2C = A2C;
+}
+
 void IIRFilter2::init_LPF(double _fc1, double _fc2, double _T)
 {
     fc1 = _fc1;

@@ -10,6 +10,7 @@ public:
         memset(this, 0, sizeof(IIRFilter2));
     }
     // Initialize type of filter, cut-off frequency, and sample time
+    void init_Butterworth(double fc, double T);
     void init_LPF(double _fc1, double _fc2, double _T); // Low-pass filter (LPF)
     void init_HPF(double _fc1, double _fc2, double _T); // High-pass filter (HPF)
     void init_BPF(double _wc, double _wb, double _T); // Band-pass filter (BPF)
