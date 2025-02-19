@@ -77,3 +77,52 @@ void loop()
 }
 ```
 ![image](https://user-images.githubusercontent.com/91120147/221400779-43297500-d633-4265-bbe1-6b017a49da48.png)
+
+
+## Example: Butterworth filter and initial alignment
+
+```cpp
+// 2025-02-19
+#include <Arduino.h>
+#include <iir_filter2.h>
+
+double noise, measure, actual;
+double Ts = 0.001;
+int idx = 0;
+double t = 0.0;
+
+IIRFilter2 butter;
+double     butter_out;
+
+IIRFilter2 low_pass;
+double     low_pass_out;
+
+void setup() {
+    Serial.begin(115200);
+    butter.init_Butterworth(10.0, Ts);
+    butter.set_init(1.0);
+    low_pass.init_LPF(10.0, 10.0, Ts);
+    vTaskDelay(2000);
+}
+
+void loop()
+{
+    static unsigned long t_enter;
+
+    if (micros() - t_enter >= 1000) {
+        t_enter = micros();
+
+        t = (double)(idx)*Ts;
+        noise = (double)(random(-1000, 1000)) / 1000.0;
+        actual = cos(2.0 * PI * t);
+        measure = actual + noise;
+
+        butter_out = butter.update(measure);
+        low_pass_out = low_pass.update(measure);
+
+        idx++;
+
+        Serial.printf("%.3f %.3f %.3f %.3f\n", measure, actual, butter_out, low_pass_out);
+    }
+}
+```
